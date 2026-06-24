@@ -223,8 +223,12 @@ public class BetterPlayer: NSObject, FlutterPlatformView, FlutterStreamHandler, 
                         guard let self = self, !self.disposed else { return }
                         if videoTrack.statusOfValue(forKey: "preferredTransform", error: nil) == .loaded {
                             self.preferredTransform = self.fixTransform(videoTrack)
-                            let videoComposition = self.getVideoComposition(transform: self.preferredTransform, asset: asset, videoTrack: videoTrack)
-                            item.videoComposition = videoComposition
+                            #if targetEnvironment(simulator)
+                            #else
+                                let videoComposition = self.getVideoComposition(transform: self.preferredTransform, asset: asset, videoTrack: videoTrack)
+                                item.videoComposition = videoComposition
+                            #endif
+
                         }
                     }
                 }
